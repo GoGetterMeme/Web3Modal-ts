@@ -15,21 +15,21 @@ const providerOptions = {
 };
 
 const web3Modal = new Web3Modal({
-  network: "rinkeby", // optional
+  network: "rinkeby" || "mainnet" || "hardhat", // optional
   cacheProvider: true, // optional
   providerOptions // required
 });
 
-const provider = await web3Modal.connect();
-
-const web3 = new Web3(provider);
-
-
-
 function App() {
+
+  const connectWallet = async () => {
+    const provider = await web3Modal.connect();
+    const web3 = new Web3(provider);
+  }
+
   return (
     <DAppProvider config={{
-      supportedChains: [ChainId.Rinkeby],
+      supportedChains: [ChainId.Rinkeby, ChainId.Mainnet, ChainId.Hardhat],
       notifications: {
         expirationPeriod: 1000,
         checkInterval: 1000
@@ -37,7 +37,7 @@ function App() {
     }}>
       <Container maxWidth="md">
         <Box>
-          <Button variant="contained" color="primary">Connect</Button>
+          <Button onClick={() => connectWallet()} variant="contained" color="primary">Connect</Button>
         </Box>
       </Container>
     </DAppProvider>
